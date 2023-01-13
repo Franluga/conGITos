@@ -237,17 +237,15 @@ La rama maestra de Paul ahora es accesible localmente con el nombre `pb/master` 
 ___
 3. **Replicar un repositorio local en un servidor remoto.**
 
-Cuando tienes un proyecto que quieres compartir, debes enviarlo a un servidor. El comando para hacerlo es simple: `git push [nombre-remoto] [nombre-rama]`. Si quieres enviar tu rama `master` a tu servidor `origin`
- (clonar un repositorio establece esos nombres automáticamente), entonces puedes ejecutar el siguiente comando y se 
-enviarán todos los *commits* que hayas hecho al servidor:
+Una vez hayamos creado un repositorio en GitHhub, convertiremos nuestro proyecto local en un repositorio Git con el comando `git init` en el directorio deseado. Luego, añadimos el repositorio con el comando siguiente, colocando la URL necesaria:
 
-`$ git push origin master`
+`git remote add origin https://github.com/GitHub_UserName/Repository_Name`
 
-Este comando solo funciona si clonaste de un servidor sobre el que  tienes permisos de escritura y si nadie más ha enviado datos por el  medio. Si alguien más clona el mismo repositorio que tú y envía información antes que tú, tu envío será rechazado. Tendrás que traerte su trabajo y combinarlo con el tuyo antes de que puedas enviar datos al servidor.
+Tras esto nos quedaría crear una nueva rama (`git branch -M main`), añadir los archivos deseados (`git add nombre_proyecto`), realizar el commit (`git commit -m “mensaje”`) y hacer el push (`git push -u origin main`).
 ___
 4. **Traer los cambios de un repositorio remoto a un repositorio local.**
 
-Para obtener datos de tus proyectos remotos puedes ejecutar: `$ git fetch [remote-name]`
+Para obtener datos de tus proyectos remotos puedes ejecutar `$ git fetch [remote-name]` o `git clone`.
 
 El comando comunica con un repositorio remoto y obtiene toda la información que se encuentra en ese repositorio que no está en el tuyo actual y la almacena en tu base de datos local. Luego de hacer esto, tendrás referencias a todas las ramas del remoto, las cuales puedes combinar e inspeccionar cuando quieras.
 
@@ -277,12 +275,17 @@ El archivo se mostrará tal que así:
 ![imagen](https://user-images.githubusercontent.com/100855055/209958724-c094db6a-f28f-4a11-b143-7cc3f3240dad.png)
 
 La forma más directa de resolver un conflicto es editar el archivo generado: hay que abrir el archivo afectado y eliminar manualmente todos los divisores de conflicto (en el ejemplo, elegir el código que nos interese que esté entre `<<<<<<< HEAD` y `=======` o `======` y `>>>>>>> contenido`)**.** Una vez que se haya editado el archivo, hacer `git commit -a`.
+
+También podemos utilizar `git stash save` (stash permite guardar los cambios locales que no pasamos a commit en un punto medio entre lo local y el online), luego `git pull` y finalmente `git stash pop`.
 ___
 6. **Enviar los cambios de un repositorio local a uno remoto.**
+	
+Para enviar los cambios hay que hacer utilizar el comando add (coge los archivos que se encuentren actualmente en el árbol de trabajo y los prepara para hacer commit). Para ello comenzamos con `git add Archivo_o_Carpeta`, luego `git commit Archivo_o_Carpeta -m “mensaje”`, y por último el `git push`.
 
-Cuando tienes un proyecto que quieres compartir, debes enviarlo a un servidor. El comando para hacerlo es simple: `git push [nombre-remoto] [nombre-rama]`. Si quieres enviar tu rama `master` a tu servidor `origin` (recuerda, clonar un repositorio establece esos nombres automáticamente), entonces puedes ejecutar el siguiente comando y se enviarán todos los *commits* que hayas hecho al servidor: `$ git push origin master`
+NOTA: es posible que al hacer un commit nos dé algún error de identificación. Para identificarnos:
 
-Este comando solo funciona si clonaste de un servidor sobre el que tienes permisos de escritura y si nadie más ha enviado datos por el medio. Si alguien más clona el mismo repositorio que tú y envía información antes que tú, tu envío será rechazado. Tendrás que traerte su trabajo y combinarlo con el tuyo antes de que puedas enviar datos al servidor.
+- `git config --global user.name NombreDeUsuarioGit`
+- `git config --global user.email NuestroCorreoGit@correo.com`
 ___
 7. **Enviar una rama local al repositorio remoto.**
 
@@ -322,10 +325,11 @@ $ git checkout -b serverfix origin/serverfix
 Branch serverfix set up to track remote branch serverfix from origin.
 Switched to a new branch 'serverfix'
 ```
+Si queremos mandar todas las ramas usamos: `git push --all -u`, y en el caso de que la rama no esté creada aún en el repositorio remoto: `git push --set-upstream origin nombre_rama`.
 ___
 8. **Incorporar a ramas locales cambios que se producen en el repositorio remoto.**
 
-La forma más sencilla de actualizar nuestro repositorio local con los posibles cambios que se hayan podido producir en el repositorio remoto es mediante el comando `git pull`. Si existen cambios éstos se descargarán y se fusionarán con nuestros cambios locales automáticamente, aunque pueden ocurrir errores:
+La forma más sencilla de actualizar nuestro repositorio local con los posibles cambios que se hayan podido producir en el repositorio remoto es mediante el comando `git pull` (`git pull origin`). Si existen cambios éstos se descargarán y se fusionarán con nuestros cambios locales automáticamente, aunque pueden ocurrir errores:
 
 ![imagen](https://user-images.githubusercontent.com/100855055/209958838-105f9a12-e6a1-45af-8f9f-ddb9ded34dd4.png)
 
